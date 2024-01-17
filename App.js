@@ -1,100 +1,25 @@
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import RecentExpenses from "./screens/RecentExpenses";
-import AllExpenses from "./screens/AllExpenses";
-import ManageExpense from "./screens/ManageExpense";
-import { GlobalStyles } from "./constants/styles";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import IconButton from "./components/UI/IconButton";
-import { ExpenseContextProvider } from "./store/expense-context";
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen'
+import LoginScreen from './screens/LoginScreen'
+import { AppRegistry } from 'react-native';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
-function ExpenseOverview() {
+function App() {
   return (
-    //We can also return an object with arrow function in screenOptions this will enable us to use the props of the component like navigation, route, etc.
-    <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
-        },
-        headerTintColor: "white",
-        tabBarStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
-        },
-        tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        headerRight: ({ tintColor }) => (
-          <IconButton
-            shape="add"
-            size={30}
-            color={tintColor}
-            onPress={() => {
-              navigation.navigate("ManageExpense");
-            }}
-          />
-        ),
-      })}
-    >
-      <Tab.Screen
-        name="AllExpenses"
-        component={AllExpenses}
-        options={{
-          title: "All Expeneses",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          tabBarLabel: "All Expenses",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="calendar" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="RecentExpenses"
-        component={RecentExpenses}
-        options={{
-          title: "Recent Expeneses",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          tabBarLabel: "Recent",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="time-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    // <Text>afuboau</Text>
+    // <HomeScreen/>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Screen name="Login" component={LoginScreen}/>
+        {/* <Stack.Screen name="Home" component={HomeScreen}/> */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-export default function App() {
-  return (
-    <>
-      <StatusBar style="auto" />
-      <ExpenseContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: GlobalStyles.colors.primary500,
-              },
-              headerTintColor: "white",
-            }}
-          >
-            <Stack.Screen
-              name="Expense Overview"
-              component={ExpenseOverview}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="ManageExpense" component={ManageExpense} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ExpenseContextProvider>
-    </>
-  );
-}
+// AppRegistry.registerComponent('Expense Tracker', () => App);
+export default App;
